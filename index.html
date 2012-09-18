@@ -46,7 +46,7 @@
 							x -= 90;
 							break;
 					}
-					cube.style[_config.transformProperty] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
+					cube.style[_config.transformProperty] = 'translateZ(-160px) rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
 				};
 			})();
 
@@ -133,8 +133,12 @@
 		#stage {
 			height: 100%;
 			width: 100%;
-			/* workaround to make transformed elements accessible */
-			-webkit-perspective: 999999;
+			-webkit-perspective: 800px;
+			-moz-perspective: 800px;
+			perspective: 800px;
+			-webkit-perspective-origin: 50% 70%;
+			-moz-perspective-origin: 50% 70%;
+			perspective-origin: 50% 70%;
 		}
 
 		#cube {
@@ -151,6 +155,9 @@
 			-webkit-transition: all 300ms ease-in;
 			transform-style: preserve-3d;
 			transition: all 300ms ease-in;
+			-moz-transform: translateZ(-160px);
+			-webkit-transform: translateZ(-160px);
+			transform: translateZ(-160px);
 		}
 
 		.side {
