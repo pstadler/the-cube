@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
+	<meta name="description" content="An experiment with CSS3 transitions." />
 	<title>The Cube</title>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://fgnass.github.com/spin.js/dist/spin.min.js"></script>
@@ -113,7 +114,6 @@
 			-moz-box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			box-sizing: border-box;
-			font-size: 18px;
 			margin: 0;
 			padding: 0;
 		}
@@ -123,6 +123,11 @@
 			width: 100%;
 			height: 100%;
 			color: #483A3A;
+			font-size: 18px;
+		}
+
+		body {
+			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAEsklEQVRogY2ZS3LjQAxDWeUz+pJ9Sc1ipjXopwclC5VtWc0PCIKMM9d1fb7f732tte7X/d1a675/Xdfnuq7PzBxn8ko73+/3MzOftdZnZo736WPbzbPXdT3sMp5tY/aBdJiBbmP7u7z2vTy7z/NKx/vs/pzv8+JZXvuZtdbfRDZSmRSNpsO8ZuaTVTXE0/6+8ozZJpBWnW13Zv4nYiUj3Yg66ZNBZgCHw5IQ6UTA0k7ajdimIp4oNH4SpaRTOspe2FUkbQmcVYvPh415oEpUDi5GEGkwwWCFSaN8lr7YTxaT0iydZIDkZr4mHVhFBv8bqlpFzB/peVDbFIWUopKYNBs9jRJWFVacyaeK5it60HWd0kuZznNJM9rJ90Q0AyRQBOHt/VrrM5SzNGT90KrHcjOBpKwFxB4wCqWQ8Owkik1eiaD1AEtvDd6GI2mZlDFpVuCt+d5QtpJTorOalmz6Mrm3mWPPH/5IF0ssgzD5pL7bfVthKMFMxMChwt70bYqTiVBNTFpZTVMl649WNSbRbNznfgqEfDc5Jn95npUySppvok4AIA7/S9YmNZuMwXPKM2H2lM0gPk82UAEpALdqte3TVMhWGJPdVDoqFilkn613GxiTHxqFiBBpwHON120bsP5s8yz9pf9DfimxFgRpRWUyBE1G+UyjoVWJqrbWOpdGotuakr1gSFIAWrNatdqCaj16bwFcP2z/MTT5nAHAc6xSnmszKBMzet+93HiaDzXE+J5/O1AN03kDi7at/1j1e9diyVo1flKOJs/Gc07z9EPkqaJG2UePpEpwRUljbdtl83LRZCUNHFLuDaxDfkkFNlkbmlbqBIHVtYDJfYuFNDKbQ5kzR8Zra/LWpBSUDJ7VaoLB+LhszlsCjUr2fVbv4G7ZryzQtkWk+LDXAqjnD3N2zyTzTRqJqklwEwZWyyrDBI9mp2okLzNBNrMhT1SJaFOlRkUqn8Q9j4BNxUgjzhhWytC2IZrqZAHSV8aXCQ8DtlnCvrEdzHhu6mP0Yi8SVKMqqzwZbAZm/GR12FMMylSKQsDKWeBpo1XuUC3KING0aWx6z0rZHLC/N3g/+3WfPaoQvifRZEUMFd4z1eHgItUyOFbXlNJY8XiOmk4JtF4gZUz/uTPtoBPZtqY0apmQ3DRl81jmRJr3WgPb9Ca3bThan7Uz4e/5m69tqJRNDizT/DbQGngmDpxpCcjRW5TGVIbkaBtMtqZY8gysybI9R5ry3r1rUfpsmreFkNJq1bPtlsm3rYC9azJ9qxaXQqJkSpJSSJRJE0PbZlECyFdeMveeO41xmKjZc63f3gZom/ikE+0RvEnUUyIpyZZQ3qe2789MhIrE979RNdLtuq7nP3p40MqbSSeqVDFW22hLP9YfpopJrX9g+f/skiqKwIxWJm0Zv/kdt9+0z4pwyh+gETkqDEtvApCJmfKl8zcAGIOdY6VuqpozUxaim8aN96QcHb9tBwSMtGNSa8XPQZRWNjlReNtSuRkQlMZ/SjT7tinanQh7g9QhSibHpGdD9y0466UEygb1DR6bzhqbtGiBUV6tj+xZEwarGv0dg5llJO85G+io9U5Tl7cq0X76abvafv4PMfnUWgiRIfEAAAAASUVORK5CYII=');
 		}
 
 		#stage {
@@ -271,6 +276,8 @@
 			border-left: 4px solid transparent;
 			background-color: white;
 			color: #483A3A;
+			outline: none;
+			font-size: 18px;
 		}
 
 		input[type=submit] {
@@ -323,9 +330,9 @@
 			cursor: pointer;
 		}
 
-		input[type=checkbox] {
-			cursor: pointer;
+		#controls input[type=checkbox] {
 			width: auto;
+			cursor: pointer;
 		}
 	</style>
 </head>
@@ -392,7 +399,7 @@
 				<div class="success-message">Success!</div>
 				<div class="emoticon">=)</div>
 				<p>
-					<a href="http://koeniglich.ch">Written by Patrick Stadler</a>
+					<a href="http://koeniglich.ch" rel="me">Written by <span itemprop="name">Patrick Stadler</span></a>
 				</p>
 				<p>
 					<iframe src="http://ghbtns.com/github-btn.html?user=pstadler&type=follow"
