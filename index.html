@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>The Cube</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://fgnass.github.com/spin.js/dist/spin.min.js"></script>
+	<script type="text/javascript">
+		/* Default configuration */
+		var _config = {
+			enableKeys: false,
+			transformProperty: null,
+		}
+
+		/* Check for transform property */
+		var dummy = document.createElement('div');
+		$.each('transform MozTransform WebkitTransform OTransform msTransform'.split(' '), function(i, prop) {
+			if(typeof dummy.style[prop] !== "undefined") {
+				_config.transformProperty = prop;
+				return false;
+			}
+		});
+
+		$(document).ready(function() {
+			/* Rotate! */
+			var rotate = (function() {
+				var x = y = 0,
+					cube = $('#cube')[0];
+
+				return function(direction) {
+					switch(direction) {
+						case 'left':
+							y -= 90;
+							break;
+
+						case 'right':
+							y += 90;
+							break;
+
+						case 'up':
+							x += 90;
+							break;
+
+						case 'down':
+							x -= 90;
+							break;
+					}
+					cube.style[_config.transformProperty] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
+				};
+			})();
+
+			$('a[data-rotate]').click(function() {
+				$.each($(this).attr('data-rotate').split('-'), function(i, direction) {
+					rotate(direction);
+				});
+				return false;
+			});
+
+			$('.login form').submit(function() {
+				rotate('down');
+				setTimeout(function() {
+					$('.login').addClass('error');
+					rotate('up');
+				}, 1500);
+				return false;
+			});
+
+			$('.join form').submit(function() {
+				rotate('down');
+				setTimeout(function() {
+					$('.about').addClass('success');
+					rotate('left');
+					rotate('down');
+					setTimeout(function() {
+						rotate('down');
+					}, 300);
+				}, 1500);
+				return false;
+			});
+
+			$('.help form').submit(function() {
+				rotate('down');
+				setTimeout(function() {
+					$('.help').addClass('success');
+					rotate('up');
+				}, 1500);
+				return false;
+			});
+
+			/* Controls */
+			$('#enable-keys').change(function() {
+				_config.enableKeys = $(this).is(':checked');
+			});
+
+			/* Arrow navigation */
+			$(document).on('keydown', function(e) {
+				if(_config.enableKeys) {
+					var mapping = {
+						37: 'left',
+						38: 'up',
+						39: 'right',
+						40: 'down'
+					}
+					if(mapping[e.keyCode]) {
+						rotate(mapping[e.keyCode]);
+					};
+				}
+			});
+		});
+	</script>
+	<style type="text/css">
+		* {
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			font-size: 18px;
+			margin: 0;
+			padding: 0;
+		}
+
+		html, body {
+			font-family: 'Helvetica Neue', Helvetica, sans-serif;
+			width: 100%;
+			height: 100%;
+			color: #483A3A;
+		}
+
+		#stage {
+			height: 100%;
+			width: 100%;
+			/* workaround to make transformed elements accessible */
+			-webkit-perspective: 999999;
+		}
+
+		#cube {
+			position: relative;
+			top: 50%;
+			left: 50%;
+			margin: -160px 0 0 -160px;
+			height: 320px;
+			width: 320px;
+			text-align: center;
+			-moz-transform-style: preserve-3d;
+			-moz-transition: all 300ms ease-in;
+			-webkit-transform-style: preserve-3d;
+			-webkit-transition: all 300ms ease-in;
+			transform-style: preserve-3d;
+			transition: all 300ms ease-in;
+		}
+
+		.side {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: #F5EEDB;
+			padding: 20px;
+			border: 5px solid #EAE1C0;
+			z-index: 1;
+		}
+
+		.side.front {
+			-moz-transform: translateZ(160px);
+			-webkit-transform: translateZ(160px);
+			transform: translateZ(160px);
+		}
+
+		.side.top {
+			-moz-transform: rotateX(90deg) translateZ(160px);
+			-webkit-transform: rotateX(90deg) translateZ(160px);
+			transform: rotateX(90deg) translateZ(160px);
+		}
+
+		.side.left {
+			-moz-transform: rotateY(-90deg) translateZ(160px);
+			-webkit-transform: rotateY(-90deg) translateZ(160px);
+			transform: rotateY(-90deg) translateZ(160px);
+		}
+
+		.side.bottom {
+			-moz-transform: rotateX(-90deg) translateZ(160px);
+			-webkit-transform: rotateX(-90deg) translateZ(160px);
+			transform: rotateX(-90deg) translateZ(160px);
+		}
+
+		.side.right {
+			-moz-transform: rotateY(90deg) translateZ(160px);
+			-webkit-transform: rotateY(90deg) translateZ(160px);
+			transform: rotateY(90deg) translateZ(160px);
+		}
+
+		.side.back {
+			-moz-transform: rotateY(180deg) translateZ(160px);
+			-webkit-transform: rotateY(180deg) translateZ(160px);
+			transform: rotateY(180deg) translateZ(160px);
+		}
+
+		.error-message, .success-message {
+			display: none;
+			background-color: #de564b;
+			color: white;
+			position: relative;
+			top: -25px;
+			padding: 5px 10px;
+			border-radius: 0 0 6px 6px;
+			font-size: 14px;
+		}
+
+		.error .error-message {
+			display: inline-block;
+		}
+
+		.error input {
+			border-left-color: #DE564B;
+			padding-left: 5px;
+		}
+
+		.success .success-message {
+			background-color: #8fb98b;
+			display: inline-block;
+		}
+
+		.side a {
+			color: #483A3A;
+			display: inline-block;
+			font-size: 14px;
+			padding: 3px 7px;
+			text-decoration: none;
+		}
+
+		.side a:hover {
+			background-color: #EAE1C0;
+		}
+
+		.side form {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		p {
+			margin: 20px 0;
+		}
+
+		.separator:after {
+			content: '·';
+			color: #d3c9a5;
+			font-weight: bold;
+		}
+
+		.emoticon {
+			color: #d3c9a5;
+			font-size: 145px;
+			line-height: 100%;
+			vertical-align: middle;
+			margin: -20px 0 40px 0;
+			-moz-transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
+		#spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+		}
+
+		input {
+			width: 100%;
+			padding: 5px 5px 5px 1px;
+			margin-bottom: 10px;
+			border: 0 none;
+			border-left: 4px solid transparent;
+			background-color: white;
+			color: #483A3A;
+		}
+
+		input[type=submit] {
+			color: white;
+			background-color: #d3c9a5;
+			border-left-color: transparent;
+			cursor: pointer;
+		}
+
+		input::-webkit-input-placeholder {
+			color: #888;
+		}
+
+		input:-moz-placeholder {
+			color: #888;
+		}
+
+		.octocat img {
+			display: block;
+			margin: -20px 0 0 -20px;
+			height: 310px;
+			width: 310px;
+		}
+
+		#header {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+		}
+
+		#header span {
+			color: #777;
+			font-size: 16px;
+		}
+
+		#controls {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			text-align: left;
+			background-color: #eee;
+			padding: 0 7px;
+			color: #777;
+			border-radius: 6px;
+		}
+
+		label {
+			font-size: 14px;
+			padding-left: 5px;
+			cursor: pointer;
+		}
+
+		input[type=checkbox] {
+			cursor: pointer;
+			width: auto;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<h1>The Cube</h1>
+		<span>&mdash; an experiment with CSS3 transitions.</span>
+	</div>
+	
+	<div id="stage">
+		<div id="cube">
+			<!-- Login -->
+			<div class="side front login">
+				<div class="error-message">Invalid credentials</div>
+				<form action="#" method="post">
+					<input type="text" name="username" placeholder="Email" />
+					<input type="password" name="password" placeholder="Password" />
+					<input type="submit" name="send" value="Login" />
+				</form>
+				<a href="#" data-rotate="right">Join</a>
+				<span class="separator"></span>
+				<a href="#" data-rotate="left">Help</a>
+			</div>
+			<!-- Loader -->
+			<div class="side top loader">
+				<div id="spinner"></div>
+				<script type="text/javascript">
+					new Spinner({
+						'color': '#d3c9a5',
+						'lines': 17,
+						'length': 22,
+						'width': 6,
+						'radius': 28,
+						'speed': 1.3,
+						'trail': 50,
+					}).spin(document.getElementById('spinner'));
+				</script>
+			</div>
+			<!-- Join -->
+			<div class="side left join">
+				<form action="#" method="post">
+					<input type="text" name="username" placeholder="Email" />
+					<input type="password" name="password" placeholder="Password" />
+					<input type="password" name="password" placeholder="Repeat password" />
+					<input type="submit" name="send" value="Join" />
+				</form>
+				<a href="#" data-rotate="left">Login</a>
+				<span class="separator"></span>
+				<a href="#" data-rotate="left-left">Help</a>
+			</div>
+			<!-- Help -->
+			<div class="side right help">
+				<div class="success-message">Success!</div>
+				<form action="#" method="post">
+					<input type="text" name="username" placeholder="Email" />
+					<input type="submit" name="send" value="Reset Password" />
+				</form>
+				<a href="#" data-rotate="right">Login</a>
+				<span class="separator"></span>
+				<a href="#" data-rotate="right-right">Join</a>
+			</div>
+			<!-- About -->
+			<div class="side bottom about">
+				<div class="success-message">Success!</div>
+				<div class="emoticon">=)</div>
+				<p>
+					<a href="http://koeniglich.ch">Written by Patrick Stadler</a>
+				</p>
+				<p>
+					<iframe src="http://ghbtns.com/github-btn.html?user=pstadler&type=follow"
+	  allowtransparency="true" frameborder="0" scrolling="0" width="132px" height="20px"></iframe>
+					<a href="https://twitter.com/pstadler" class="twitter-follow-button" data-show-count="false">Follow @pstadler</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				</p>
+			</div>
+			<!-- Empty -->
+			<div class="side back octocat">
+				<img src="http://octodex.github.com/images/grim-repo.jpg" alt="The Grim Repo" />
+			</div>
+		</div>
+	</div>
+
+	<div id="controls">
+		<form>
+			<input type="checkbox" name="enable-keys" id="enable-keys" autocomplete="off" />
+			<label for="enable-keys">Enable arrow navigation</label>
+		</form>
+	</div>
+
+	<a href="https://github.com/pstadler/the-cube"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+</body>
+</html>
