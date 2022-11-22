@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<meta name="description" content="An experiment with CSS3 transitions." />
+	<meta name="description" content="An experiment with CSS3 transitions in 2012." />
 	<title>The Cube</title>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-	<script type="text/javascript" src="http://fgnass.github.com/spin.js/dist/spin.min.js"></script>
 	<script type="text/javascript">
 		/* Default configuration */
 		var _config = {
@@ -270,9 +269,29 @@
 		}
 
 		#spinner {
-			position: absolute;
-			top: 50%;
-			left: 50%;
+			height: 100%;
+			width: 100%;
+		}
+
+		#spinner img {
+			height: 100px;
+			width: 100px;
+			margin: 85px;
+			-moz-animation: rotation 1s infinite linear;
+			-webkit-animation: rotation 1s infinite linear;
+			animation: rotation 1s infinite linear;
+		}
+		@-moz-keyframes rotation {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(359deg); }
+		}
+		@-webkit-keyframes rotation {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(359deg); }
+		}
+		@keyframes rotation {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(359deg); }
 		}
 
 		input {
@@ -346,9 +365,9 @@
 <body>
 	<div id="header">
 		<h1>The Cube</h1>
-		<span>&mdash; an experiment with CSS3 transitions.</span>
+		<span>&mdash; an experiment with CSS3 transitions in 2012.</span>
 	</div>
-	
+
 	<div id="stage">
 		<div id="cube">
 			<!-- Login -->
@@ -365,18 +384,10 @@
 			</div>
 			<!-- Loader -->
 			<div class="side top loader">
-				<div id="spinner"></div>
-				<script type="text/javascript">
-					new Spinner({
-						'color': '#d3c9a5',
-						'lines': 17,
-						'length': 22,
-						'width': 6,
-						'radius': 28,
-						'speed': 1.3,
-						'trail': 50,
-					}).spin(document.getElementById('spinner'));
-				</script>
+				<div id="spinner">
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAAnFBMVEUAAADUxqPSyKXTyKXTyaXGwpLTyqXTyaXTyaXYtpTTyabTyqXYy6PXwKbTyaXUyaXSyKXTyaXTyKXTyaXUyKPTyqXUyKXUyqXTyaXVyKjUyKXTyKbTyqXTyKbSxKXY0aXTyaXTyaXUyKXUyaXSyKXUyaXUyqXSyKXTyaXTyqXTyaXSyKXTyabTyaXUyqXUyKXTyaXn3LXg1a/268CgGvChAAAAMHRSTlMAI0putQSRjdwGUJ4mFPnbTLJruxrYc8BFEGYqOz8LB+TWcFYx4Kge6XrMNq2Wg15GaPtHAAADbUlEQVRo3u3X2W7aQBSA4eNlwDZQ7/sGXrHZurz/u/V42ri4IRehc1RFyp8oChfo08ycsQDe1W4r8bY7eE+fCLyKHik9oEdSq9lRI0UkW1Fa0CInS5YtK5coEU/mWXLm0SGZJf/KSMkQSX4pKqiQIp8XIgEVkr4YVlZSIbtoRjygQhrjZbMaoEI8+XdWtKNCymzerBSoEGk28oIKKfip8yQgQZbjC1RIPBuyJw5Jt7z0N3KakRP8XfzsQznuPV4fw5Q3G68eWkWTBDUIiEVvjS/b1oGiKCcBiJ5GhsyLdLivl6vAUZTgFgs5o8ayXj204jwJHEfBqhyE5GWoLMb3dAsUJDiS9GIUvY+MGOa2tRJMBM8JZBBU4f3ZPsMJlPuCFARX5km1IConL8USLH1FGDvBhFf/tVHKTQLBbReEUwW3EwgvTu4IJUiiGAhq5snFAbN6IKmoJ4Uvo04ZECUpHAmSpgC6ZFxKVeUxUOYlVWV4QFyebBlQV+rw2btiD4OPV1YbjxJJMBi6zaPEIs5l/SixiLJZPeoTeRfyAQ/+jRH+cJfxzT4fkP+togD6ki7XgTQGTee61xRIY0Foq67r9BNIVabaqqraYWfsyJh47U4ISuE6YkSKFaLBFTtUhwYoGK+bgJnpFA/El4eqfce47qYWvxQ9XbuzwRn1koF4JtrcMzjO9rUXz8TJ2XXtO8g9JzGISZLL+d/r2VUXTPTvU8YAdrfxeIK5fKW6s2KHg4jTZ/L56GtdCXN6vXkZNNvtGgHX5bTW9gfT39fL745daNsccZ4xWKnzSv7eeBiPvq+ZphbGiy1sBhwANDYCbmQxtgdTQ8RsB1hU5qsQl1IDe+bD28ENMffwax+sva9xRBvTv+YhNrpwBU9UwuXHd96PC5TTIW9aHxFk2g1Xl0eTPXWnYf3tC+/bGl9gTetPBDoHCxURceQrNiPsejxwxN+fdSBCQBo1H9cx/TrAiBBIpqXgj793JWBEiHeeJoxv2ECFMDBM30QEd23MgFEgmH7hG6Zph+OqBBqEQTbiZcFMv7WIEFSue9wwDMd4R4NgfTidPd+wGxXCwOH3ZPoz9kQIMmprooJjdhzIEIj86Tr6e9OO6BDYtOahbUOHASGyPWjH8doDUCIw7FcZAKNFYkPnBCmCMSBHkKBH4L8jPwE0Smn+NZ57/AAAAABJRU5ErkJggg==" />
+				</div>
+
 			</div>
 			<!-- Join -->
 			<div class="side left join">
@@ -406,18 +417,16 @@
 				<div class="success-message">Success!</div>
 				<div class="emoticon">=)</div>
 				<p>
-					<a href="http://koeniglich.ch" rel="me">Written by <span itemprop="name">Patrick Stadler</span></a>
+					<a href="https://pstadler.dev" rel="me">pstadler.dev</a>
 				</p>
 				<p>
-					<iframe src="http://ghbtns.com/github-btn.html?user=pstadler&type=follow"
-	  allowtransparency="true" frameborder="0" scrolling="0" width="132px" height="20px"></iframe>
-					<a href="https://twitter.com/pstadler" class="twitter-follow-button" data-show-count="false">Follow @pstadler</a>
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					<a href="https://github.com/pstadler" rel="me">GitHub @pstadler</a>
+					<a href="https://twitter.com/pstadler" rel="me">Twitter @pstadler</a>
 				</p>
 			</div>
 			<!-- Empty -->
 			<div class="side back octocat">
-				<img src="http://octodex.github.com/images/grim-repo.jpg" alt="The Grim Repo" />
+				<img src="https://octodex.github.com/images/grim-repo.jpg" alt="The Grim Repo" />
 			</div>
 		</div>
 	</div>
